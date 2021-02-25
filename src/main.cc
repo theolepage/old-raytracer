@@ -2,7 +2,9 @@
 
 #include "camera.hxx"
 #include "image.hxx"
+#include "object.hxx"
 #include "point_light.hxx"
+#include "uniform_texture.hxx"
 #include "vector3.hxx"
 
 using namespace raytracer;
@@ -18,6 +20,8 @@ int main(void)
     PointLight l(Vector3(0), Color(255, 0, 0));
 
     Camera cam(Vector3(0), Point3(0, 0, 0), 0, 0, 0);
+
+    // Object object();
 
     std::cout << "hello" << std::endl;
 }
