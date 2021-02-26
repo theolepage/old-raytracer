@@ -31,7 +31,7 @@ class Scene
 };
 
 Scene::Scene()
-    : ambient_color_(0.2f, 0.2f, 0.2f)
+    : ambient_color_(0.05f, 0.05f, 0.05f)
 {
 }
 

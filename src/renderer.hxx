@@ -31,7 +31,7 @@ void Renderer::run(Image& image, const Scene& scene)
                 if (t.has_value())
                 {
                     Point3 hitpoint = ray.at(t.value());
-                    Color  color(0, 0, 0);
+                    Color  color    = scene.get_ambient_color();
                     // FIXME: use scene.get_ambient_color()
 
                     for (uint l = 0; l < scene.get_lights().size(); l++)
