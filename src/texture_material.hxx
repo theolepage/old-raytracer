@@ -9,6 +9,7 @@ struct TextureParams
     Color color;
     float k_d; // capacity of surface to be diffusing
     float k_s; // capacity of surface to be reflecting
+    float n_s;
 };
 
 class TextureMaterial

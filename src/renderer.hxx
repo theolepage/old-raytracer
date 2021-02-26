@@ -23,16 +23,48 @@ void Renderer::run(Image& image, const Scene& scene)
 
             Ray ray = scene.get_camera().create_ray(point);
 
-            for (uint i = 0; i < scene.get_objects().size(); i++)
+            for (uint o = 0; o < scene.get_objects().size(); o++)
             {
-                if (scene.get_objects().at(i)->intersect(ray).has_value())
-                {
-                    image.set_pixel(x, y, Color(100, 100, 255));
+                Object*              object = scene.get_objects().at(o);
+                std::optional<float> t      = object->intersect(ray);
 
-                    // DIFFUSE
-                    // for each light in scene
-                    // Id = kd * c * dot(normal surface, ray to light) *
-                    // intensity of light
+                if (t.has_value())
+                {
+                    Point3 hitpoint = ray.at(t.value());
+                    Color  color(0, 0, 0);
+                    // FIXME: use scene.get_ambient_color()
+
+                    for (uint l = 0; l < scene.get_lights().size(); l++)
+                    {
+                        Light* light = scene.get_lights().at(l);
+
+                        // Cast ray towards light
+                        Vector3 light_ray_dir =
+                            (light->get_pos() - hitpoint).normalize();
+                        Ray light_ray(hitpoint, light_ray_dir);
+
+                        // FIXME: If intersect with object => break
+
+                        // Compute diffuse component
+                        Color         li = light->get_color();
+                        TextureParams tp = object->get_texture_params(hitpoint);
+
+                        float d = dot(object->get_surface_normal(hitpoint),
+                                      light_ray_dir);
+
+                        color += li * tp.color * tp.k_d * (1 - d);
+
+                        // Compute specular component
+                        Vector3 n = object->get_surface_normal(hitpoint);
+                        Vector3 v = ray.get_direction().normalize();
+                        Vector3 reflected_ray_dir = v - n * 2 * dot(v, n);
+
+                        float d2 = dot(reflected_ray_dir, light_ray_dir);
+
+                        color += li * std::pow(d2, tp.n_s) * tp.k_s;
+                    }
+
+                    image.set_pixel(x, y, color.clamp());
 
                     // SPECULAIRE
                     // send ray with opposite angle of the one between normal

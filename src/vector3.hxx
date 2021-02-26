@@ -33,6 +33,8 @@ class Vector3
 
     float norm(bool squared = false) const;
 
+    Vector3& clamp(float min = 0.0f, float max = 1.0f);
+
     Vector3& operator+=(const float& v);
     Vector3& operator-=(const float& v);
     Vector3& operator*=(const float& v);
@@ -82,6 +84,15 @@ float Vector3::norm(bool squared) const
 {
     float res = (x_ * x_) + (y_ * y_) + (z_ * z_);
     return squared ? res : std::sqrt(res);
+}
+
+Vector3& Vector3::clamp(float min, float max)
+{
+    x_ = std::max(std::min(x_, max), min);
+    y_ = std::max(std::min(y_, max), min);
+    z_ = std::max(std::min(z_, max), min);
+
+    return *this;
 }
 
 Vector3 Vector3::normalize() const

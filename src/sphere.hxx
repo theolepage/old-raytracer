@@ -58,9 +58,9 @@ std::optional<float> Sphere::intersect(const Ray& ray) const
     return std::nullopt;
 }
 
-Vector3 Sphere::get_surface_normal(const Vector3&) const
+Vector3 Sphere::get_surface_normal(const Vector3& point) const
 {
-    return Vector3(0, 0, 0);
+    return (pos_ - point).normalize();
 }
 
 TextureParams Sphere::get_texture_params(const Vector3& pos) const

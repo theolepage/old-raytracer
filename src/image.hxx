@@ -31,7 +31,7 @@ class Image
 Image::Image(uint w, uint h)
     : width_(w)
     , height_(h)
-    , data_(w * h, Color(0, 0, 0))
+    , data_(w * h, Color(0.9f, 0.9f, 0.9f))
 {
 }
 
@@ -60,9 +60,10 @@ void Image::save(const std::string& path)
     {
         for (uint x = 0; x < width_; x++)
         {
-            output << get_pixel(x, y).get_x() << " ";
-            output << get_pixel(x, y).get_y() << " ";
-            output << get_pixel(x, y).get_z() << " ";
+            Color color = get_pixel(x, y);
+            output << static_cast<int>(color.get_x() * 255.0f) << " ";
+            output << static_cast<int>(color.get_y() * 255.0f) << " ";
+            output << static_cast<int>(color.get_z() * 255.0f) << " ";
             output << "\n";
         }
     }
