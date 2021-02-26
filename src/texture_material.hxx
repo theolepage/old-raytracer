@@ -1,14 +1,14 @@
 #pragma once
 
-#include "color.hxx"
 #include "vector3.hxx"
 
 namespace raytracer
 {
 struct TextureParams
 {
-    float k_d;
-    float k_s;
+    Color color;
+    float k_d; // capacity of surface to be diffusing
+    float k_s; // capacity of surface to be reflecting
 };
 
 class TextureMaterial

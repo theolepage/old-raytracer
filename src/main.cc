@@ -1,27 +1,35 @@
 #include <iostream>
 
-#include "camera.hxx"
+#include "vector3_operations.hxx"
+
 #include "image.hxx"
-#include "object.hxx"
-#include "point_light.hxx"
-#include "uniform_texture.hxx"
-#include "vector3.hxx"
+#include "renderer.hxx"
+#include "scene.hxx"
+#include "sphere.hxx"
 
 using namespace raytracer;
 
 int main(void)
 {
-    Vector3 test(5);
-    std::cout << test << std::endl;
+    uint  width        = 1920;
+    uint  height       = 1080;
+    float aspect_ratio = (float)width / (float)height;
+    Image image(width, height);
 
-    Image image(100, 100);
-    image.save("test.ppm");
+    // Create simple scene with a camera and a sphere
+    Scene scene;
+    auto  camera  = Camera(Point3(-5.0f, 1.0f, 0.0f),
+                         Point3(0.0f, 1.0f, 0.0f),
+                         M_PI / 4,
+                         aspect_ratio,
+                         0);
+    auto  sphere1 = Sphere(Point3(0.0f, 1.0f, 0.0f), 1.0f);
+    scene.set_camera(camera);
+    scene.add_object(&sphere1);
 
-    PointLight l(Vector3(0), Color(255, 0, 0));
+    // Run raytracer and save output image
+    Renderer::run(image, scene);
+    image.save("out.ppm");
 
-    Camera cam(Vector3(0), Point3(0, 0, 0), 0, 0, 0);
-
-    // Object object();
-
-    std::cout << "hello" << std::endl;
+    return 0;
 }

@@ -5,9 +5,15 @@
 
 namespace raytracer
 {
+class Vector3;
+
+typedef Vector3 Point3;
+typedef Vector3 Color;
+
 class Vector3
 {
   public:
+    explicit Vector3();
     explicit Vector3(float v);
     explicit Vector3(float x, float y, float z);
 
@@ -15,21 +21,27 @@ class Vector3
 
     virtual ~Vector3() = default;
 
-    float length() const;
+    float get_x() const;
+    float get_y() const;
+    float get_z() const;
 
-    // Operations on scalars
-    Vector3 operator+(const float& v) const;
-    Vector3 operator-(const float& v) const;
-    Vector3 operator*(const float& v) const;
-    Vector3 operator/(const float& v) const;
+    void set_x(const float v);
+    void set_y(const float v);
+    void set_z(const float v);
 
-    // Operations on vectors
-    Vector3 operator+(const Vector3& v) const;
-    Vector3 operator-(const Vector3& v) const;
-    Vector3 operator*(const Vector3& v) const;
-    Vector3 operator/(const Vector3& v) const;
+    Vector3 normalize() const;
 
-    friend std::ostream& operator<<(std::ostream& out, Vector3& v);
+    float norm(bool squared = false) const;
+
+    Vector3& operator+=(const float& v);
+    Vector3& operator-=(const float& v);
+    Vector3& operator*=(const float& v);
+    Vector3& operator/=(const float& v);
+
+    Vector3& operator+=(const Vector3& v);
+    Vector3& operator-=(const Vector3& v);
+    Vector3& operator*=(const Vector3& v);
+    Vector3& operator/=(const Vector3& v);
 
   private:
     float x_;
@@ -37,10 +49,13 @@ class Vector3
     float z_;
 };
 
+Vector3::Vector3()
+    : Vector3(0, 0, 0)
+{
+}
+
 Vector3::Vector3(float v)
-    : x_(v)
-    , y_(v)
-    , z_(v)
+    : Vector3(v, v, v)
 {
 }
 
@@ -51,55 +66,92 @@ Vector3::Vector3(float x, float y, float z)
 {
 }
 
-float Vector3::length() const
+float Vector3::get_x() const { return x_; }
+
+float Vector3::get_y() const { return y_; }
+
+float Vector3::get_z() const { return z_; }
+
+void Vector3::set_x(const float v) { x_ = v; }
+
+void Vector3::set_y(const float v) { y_ = v; }
+
+void Vector3::set_z(const float v) { z_ = v; }
+
+float Vector3::norm(bool squared) const
 {
-    return std::sqrt((x_ * x_) + (y_ * y_) + (z_ * z_));
+    float res = (x_ * x_) + (y_ * y_) + (z_ * z_);
+    return squared ? res : std::sqrt(res);
 }
 
-Vector3 Vector3::operator+(const float& v) const
+Vector3 Vector3::normalize() const
 {
-    return Vector3(x_ + v, y_ + v, z_ + v);
+    Vector3 res(*this);
+    res /= norm();
+    return res;
 }
 
-Vector3 Vector3::operator-(const float& v) const
+Vector3& Vector3::operator+=(const float& v)
 {
-    return Vector3(x_ - v, y_ - v, z_ - v);
+    x_ += v;
+    y_ += v;
+    z_ += v;
+    return *this;
 }
 
-Vector3 Vector3::operator*(const float& v) const
+Vector3& Vector3::operator-=(const float& v)
 {
-    return Vector3(x_ * v, y_ * v, z_ * v);
+    x_ -= v;
+    y_ -= v;
+    z_ -= v;
+    return *this;
 }
 
-Vector3 Vector3::operator/(const float& v) const
+Vector3& Vector3::operator*=(const float& v)
 {
-    return Vector3(x_ / v, y_ / v, z_ / v);
+    x_ *= v;
+    y_ *= v;
+    z_ *= v;
+    return *this;
 }
 
-Vector3 Vector3::operator+(const Vector3& v) const
+Vector3& Vector3::operator/=(const float& v)
 {
-    return Vector3(x_ + v.x_, y_ + v.y_, z_ + v.z_);
+    x_ /= v;
+    y_ /= v;
+    z_ /= v;
+    return *this;
 }
 
-Vector3 Vector3::operator-(const Vector3& v) const
+Vector3& Vector3::operator+=(const Vector3& v)
 {
-    return Vector3(x_ - v.x_, y_ - v.y_, z_ - v.z_);
+    x_ += v.x_;
+    y_ += v.y_;
+    z_ += v.z_;
+    return *this;
 }
 
-Vector3 Vector3::operator*(const Vector3& v) const
+Vector3& Vector3::operator-=(const Vector3& v)
 {
-    return Vector3(x_ * v.x_, y_ * v.y_, z_ * v.z_);
+    x_ -= v.x_;
+    y_ -= v.y_;
+    z_ -= v.z_;
+    return *this;
 }
 
-Vector3 Vector3::operator/(const Vector3& v) const
+Vector3& Vector3::operator*=(const Vector3& v)
 {
-    return Vector3(x_ / v.x_, y_ / v.y_, z_ / v.z_);
+    x_ *= v.x_;
+    y_ *= v.y_;
+    z_ *= v.z_;
+    return *this;
 }
 
-std::ostream& operator<<(std::ostream& out, Vector3& v)
+Vector3& Vector3::operator/=(const Vector3& v)
 {
-    out << "(" << v.x_ << "; " << v.y_ << "; " << v.z_ << ")";
-    return out;
+    x_ /= v.x_;
+    y_ /= v.y_;
+    z_ /= v.z_;
+    return *this;
 }
-
 } // namespace raytracer

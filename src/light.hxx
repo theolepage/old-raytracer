@@ -1,6 +1,5 @@
 #pragma once
 
-#include "color.hxx"
 #include "vector3.hxx"
 
 namespace raytracer

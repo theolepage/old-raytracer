@@ -10,43 +10,61 @@ namespace raytracer
 class Image
 {
   public:
-    explicit Image(float w, float h);
+    explicit Image(uint w, uint h);
 
     virtual ~Image() = default;
 
-    void save(const std::string& path) const;
+    uint  get_width() const;
+    uint  get_height() const;
+    Color get_pixel(uint x, uint y) const;
+
+    void set_pixel(uint x, uint y, Color color);
+
+    void save(const std::string& path);
 
   private:
-    float              width_;
-    float              height_;
-    std::vector<float> data_;
+    uint               width_;
+    uint               height_;
+    std::vector<Color> data_;
 };
 
-Image::Image(float w, float h)
+Image::Image(uint w, uint h)
     : width_(w)
     , height_(h)
-    , data_(w * h)
+    , data_(w * h, Color(0, 0, 0))
 {
 }
 
-void Image::save(const std::string& path) const
-{
-    // Export to ppm format
-    // P3 width height 255
-    // FIXME: write in binary
+uint Image::get_width() const { return width_; }
 
+uint Image::get_height() const { return height_; }
+
+Color Image::get_pixel(uint x, uint y) const
+{
+    return data_.at(x + y * width_);
+}
+
+void Image::set_pixel(uint x, uint y, Color color)
+{
+    data_[x + y * width_] = color;
+}
+
+void Image::save(const std::string& path)
+{
     std::ofstream output;
     output.open(path);
 
-    output << "P3 " << width_ << " " << height_ << " 255" << std::endl;
+    output << "P3\n" << width_ << " " << height_ << "\n255\n";
 
-    for (uint i = 0; i < width_; i++)
+    for (uint y = 0; y < height_; y++)
     {
-        for (uint j = 0; j < height_; j++)
+        for (uint x = 0; x < width_; x++)
         {
-            output << data_[i + j * width_] << " ";
+            output << get_pixel(x, y).get_x() << " ";
+            output << get_pixel(x, y).get_y() << " ";
+            output << get_pixel(x, y).get_z() << " ";
+            output << "\n";
         }
-        output << std::endl;
     }
 
     output.close();
