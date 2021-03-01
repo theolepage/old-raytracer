@@ -31,7 +31,7 @@ class Image
 Image::Image(uint w, uint h)
     : width_(w)
     , height_(h)
-    , data_(w * h, Color(0.9f, 0.9f, 0.9f))
+    , data_(w * h, Color(206 / 255.0f, 230 / 245.0f, 255 / 255.0f))
 {
 }
 
