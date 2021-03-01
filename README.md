@@ -8,6 +8,10 @@ A simple raytracer written in C++.
 
 - [ ] Anti-aliasing
 - [ ] Soft shadows
+- [ ] Transparent objects
+- [ ] More textures
+- [ ] Focal blur
+- [ ] Refactor Renderer::run()
 - [ ] Improve performances
 - [ ] Rename correctly Point3/Vector3/Color
-- [ ] Write image ppm in binary
+- [ ] Write image PPM in binary / export directly in PNG
