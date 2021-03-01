@@ -40,7 +40,8 @@ int main(void)
     scene.add_object(&sphere3);
 
     // Run raytracer and save output image
-    Renderer::run(image, scene);
+    Renderer renderer(scene, image);
+    renderer.run();
     image.save("out.ppm");
 
     return 0;

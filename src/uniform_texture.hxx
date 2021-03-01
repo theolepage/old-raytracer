@@ -28,7 +28,7 @@ UniformTexture::UniformTexture(const Color& color)
 {
     params_.color = color;
     params_.k_d   = 0.9f;
-    params_.k_s   = 0.17f;
+    params_.k_s   = 0.3f; // 0.17f
     params_.n_s   = 1.0f;
 }
 
