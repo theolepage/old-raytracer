@@ -20,12 +20,11 @@ class Sphere : public Object
     TextureParams get_texture_params(const Vector3& pos) const;
 
   private:
-    Point3 pos_;
-    float  radius_;
+    float radius_;
 };
 
 Sphere::Sphere(const Point3& pos, float radius)
-    : pos_(pos)
+    : Object(pos)
     , radius_(radius)
 {
 }

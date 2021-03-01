@@ -32,8 +32,8 @@ int main(void)
     UniformTexture texture_green(Color(0.31f, 0.74f, 0.41f));
 
     auto sphere1 = Sphere(Point3(0.0f, -1.0f, 3.0f), 1.0f);
-    auto sphere2 = Sphere(Point3(0.0f, -1.0f, -3.0f), 0.6f);
-    auto sphere3 = Sphere(Point3(0.0f, 2.0f, 0.0f), 0.8f);
+    auto sphere2 = Sphere(Point3(0.0f, 0.0f, -1.0f), 0.8f);
+    auto sphere3 = Sphere(Point3(0.0f, 2.0f, 0.0f), 0.6f);
     sphere3.set_texture(&texture_green);
     scene.add_object(&sphere1);
     scene.add_object(&sphere2);
